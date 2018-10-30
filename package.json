@@ -28,6 +28,9 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
+  "dependencies": {
+    "scratch-vm": "github:mytechia/scratch-vm#develop"
+  },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
@@ -105,7 +108,6 @@
     "scratch-render": "0.1.0-prerelease.20181029125804",
     "scratch-storage": "1.1.0",
     "scratch-svg-renderer": "0.2.0-prerelease.20181024192149",
-    "scratch-vm": "0.2.0-prerelease.20181025092837",
     "selenium-webdriver": "3.6.0",
     "startaudiocontext": "1.2.1",
     "style-loader": "^0.23.0",
