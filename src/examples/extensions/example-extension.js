@@ -3,7 +3,7 @@ var ExampleExtension = function () {
 
 /**
  * @return {object} This extension's metadata.
- */
+ */  
 ExampleExtension.prototype.getInfo = function () {
     return {
         // Required: the machine-readable name of this extension.
