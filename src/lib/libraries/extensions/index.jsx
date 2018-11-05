@@ -52,30 +52,12 @@ export default [
             <FormattedMessage
                 defaultMessage="Play instruments and drums."
                 description="Description for the 'Music' extension"
-                id="gui.extension.music.description"
+                id="gui.extension.music.descriptiontest"
             />
         ),
         featured: true
     },
-    {
-        name: (
-            <FormattedMessage
-                defaultMessage="Copied Music"
-                description="Name for the 'Music' extension"
-                id="gui.extension.music.name"
-            />
-        ),
-        extensionId: 'music',
-        iconURL: musicImage,
-        description: (
-            <FormattedMessage
-                defaultMessage="Play instruments and drums."
-                description="Description for the 'Music' extension"
-                id="gui.extension.music.description"
-            />
-        ),
-        featured: true
-    },
+   
     {
         name: (
             <FormattedMessage
