@@ -16,6 +16,10 @@ import largeStageIcon from './icon--large-stage.svg';
 import smallStageIcon from './icon--small-stage.svg';
 import unFullScreenIcon from './icon--unfullscreen.svg';
 
+//Robobo
+import roboboStageIcon from './icon--robobo-stage.svg';
+
+
 import styles from './stage-header.css';
 
 const messages = defineMessages({
@@ -43,7 +47,13 @@ const messages = defineMessages({
         defaultMessage: 'Full Screen Control',
         description: 'Button to enter/exit full screen mode',
         id: 'gui.stageHeader.fullscreenControl'
-    }
+    }, 
+    //Robobo
+    roboboStageSizeMessage: {
+        defaultMessage: 'Switch to Robobo stage',
+        description: 'Button to change stage to Robobo',
+        id: 'gui.stageHeader.stageRobobo'
+    },    
 });
 
 const StageHeaderComponent = function (props) {
@@ -53,6 +63,7 @@ const StageHeaderComponent = function (props) {
         onKeyPress,
         onSetStageLarge,
         onSetStageSmall,
+        onSetStageNoDisplay, // Robobo
         onSetStageFull,
         onSetStageUnFull,
         stageSizeMode,
@@ -91,7 +102,7 @@ const StageHeaderComponent = function (props) {
             isPlayerOnly ? (
                 []
             ) : (
-                <div className={styles.stageSizeToggleGroup}>
+                <div className={styles.stageSizeToggleGroup}>        
                     <div>
                         <Button
                             className={classNames(
@@ -128,13 +139,33 @@ const StageHeaderComponent = function (props) {
                     </div>
                 </div>
             );
+
         header = (
             <Box className={styles.stageHeaderWrapper}>
                 <Box className={styles.stageMenuWrapper}>
                     <Controls vm={vm} />
                     <div className={styles.stageSizeRow}>
-                        {stageControls}
                         <div>
+                            <Button
+                                className={classNames(
+                                    styles.stageButton,                                   
+                                    (stageSizeMode === STAGE_SIZE_MODES.nodisplay) ? null : styles.stageButtonToggledOff
+                                )}
+                                onClick={onSetStageNoDisplay}
+                            >
+                                <img
+                                    alt={props.intl.formatMessage(messages.roboboStageSizeMessage)}
+                                    className={styles.stageButtonIcon}
+                                    draggable={false}
+                                    src={roboboStageIcon}
+                                />
+                            </Button>
+                        </div>                            
+                        {stageControls}             
+                        {
+                            // Robobo: added style={{display: 'none'}} 
+                        }           
+                        <div style={{display: 'none'}} > 
                             <Button
                                 className={styles.stageButton}
                                 onClick={onSetStageFull}
@@ -170,6 +201,7 @@ StageHeaderComponent.propTypes = {
     onSetStageFull: PropTypes.func.isRequired,
     onSetStageLarge: PropTypes.func.isRequired,
     onSetStageSmall: PropTypes.func.isRequired,
+    onSetStageNoDisplay: PropTypes.func.isRequired, // Robobo
     onSetStageUnFull: PropTypes.func.isRequired,
     stageSizeMode: PropTypes.oneOf(Object.keys(STAGE_SIZE_MODES)),
     vm: PropTypes.instanceOf(VM).isRequired

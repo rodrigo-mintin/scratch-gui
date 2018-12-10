@@ -214,6 +214,13 @@
     max-width: calc(240px + calc($space * 2));
 }
 
+
+/* Robobo */ 
+.stage-and-target-wrapper.nodisplay {
+    /* Fix the max width to max small stage size (defined in layout_constants.js) + gutter size */
+    max-width: calc(240px + calc($space * 2));
+}
+
 .target-wrapper {
     display: flex;
     flex-grow: 1;

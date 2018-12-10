@@ -59,6 +59,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     onSetStageLarge: () => dispatch(setStageSize(STAGE_SIZE_MODES.large)),
     onSetStageSmall: () => dispatch(setStageSize(STAGE_SIZE_MODES.small)),
+    onSetStageNoDisplay: () => dispatch(setStageSize(STAGE_SIZE_MODES.nodisplay)), // Robobo        
     onSetStageFull: () => dispatch(setFullScreen(true)),
     onSetStageUnFull: () => dispatch(setFullScreen(false))
 });

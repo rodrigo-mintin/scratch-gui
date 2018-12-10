@@ -15,6 +15,8 @@ import CostumeTab from '../../containers/costume-tab.jsx';
 import TargetPane from '../../containers/target-pane.jsx';
 import SoundTab from '../../containers/sound-tab.jsx';
 import StageWrapper from '../../containers/stage-wrapper.jsx';
+//Robobo
+import RoboboWrapper from '../../containers/robobo-wrapper.jsx';
 import Loader from '../loader/loader.jsx';
 import Box from '../box/box.jsx';
 import MenuBar from '../menu-bar/menu-bar.jsx';
@@ -33,6 +35,7 @@ import DragLayer from '../../containers/drag-layer.jsx';
 import ConnectionModal from '../../containers/connection-modal.jsx';
 
 import layout, {STAGE_SIZE_MODES} from '../../lib/layout-constants';
+import {STAGE_DISPLAY_SIZES} from '../../lib/layout-constants.js';
 import {resolveStageSize} from '../../lib/screen-utils';
 
 import styles from './gui.css';
@@ -122,6 +125,8 @@ const GUIComponent = props => {
 
     return (<MediaQuery minWidth={layout.fullSizeMinWidth}>{isFullSize => {
         const stageSize = resolveStageSize(stageSizeMode, isFullSize);
+        //Robobo
+        const roboboMonitor = stageSize == STAGE_DISPLAY_SIZES.nodisplay;
 
         return isPlayerOnly ? (
             <StageWrapper
@@ -300,17 +305,30 @@ const GUIComponent = props => {
                         </Box>
 
                         <Box className={classNames(styles.stageAndTargetWrapper, styles[stageSize])}>
-                            <StageWrapper
-                                isRendererSupported={isRendererSupported}
-                                stageSize={stageSize}
-                                vm={vm}
-                            />
-                            <Box className={styles.targetWrapper}>
+                            { roboboMonitor ? (                            
+                                <RoboboWrapper
+                                    isRendererSupported={isRendererSupported}
+                                    stageSize={stageSize}
+                                    vm={vm}
+                                />
+                            ) : (                                    
+                                <StageWrapper
+                                    isRendererSupported={isRendererSupported}
+                                    stageSize={stageSize}
+                                    vm={vm}
+                                />
+                            )}               
+                            { roboboMonitor ? (                            
+                                null 
+                            ) : (                                    
+                                <Box className={styles.targetWrapper}>
                                 <TargetPane
                                     stageSize={stageSize}
                                     vm={vm}
                                 />
-                            </Box>
+                                </Box>
+                            )}                                              
+                               
                         </Box>
                     </Box>
                 </Box>

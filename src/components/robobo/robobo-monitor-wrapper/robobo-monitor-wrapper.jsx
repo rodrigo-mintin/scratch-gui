@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import VM from 'scratch-vm';
 
-import Box from '../box/box.jsx';
-import {STAGE_DISPLAY_SIZES} from '../../lib/layout-constants.js';
-import StageHeader from '../../containers/stage-header.jsx';
-import Stage from '../../containers/stage.jsx';
+import Box from '../../box/box.jsx';
+import {STAGE_DISPLAY_SIZES} from '../../../lib/layout-constants.js';
+import StageHeader from '../../../containers/stage-header.jsx';
+import Stage from '../../../containers/stage.jsx';
 
-import styles from './stage-wrapper.css';
+import styles from './robobo-monitor-wrapper.css';
 
-const StageWrapperComponent = function (props) {
+const RoboboMonitorWrapperComponent = function (props) {
     const {
         isRendererSupported,
         stageSize,
@@ -25,23 +25,16 @@ const StageWrapperComponent = function (props) {
                 />
             </Box>
             <Box className={styles.stageCanvasWrapper}>
-                {
-                    isRendererSupported ?
-                        <Stage
-                            stageSize={stageSize}
-                            vm={vm}
-                        /> :
-                        null
-                }
+                <div>PRUEBA</div>
             </Box>
         </Box>
     );    
 };
 
-StageWrapperComponent.propTypes = {
+RoboboMonitorWrapperComponent.propTypes = {
     isRendererSupported: PropTypes.bool.isRequired,
     stageSize: PropTypes.oneOf(Object.keys(STAGE_DISPLAY_SIZES)).isRequired,
     vm: PropTypes.instanceOf(VM).isRequired
 };
 
-export default StageWrapperComponent;
+export default RoboboMonitorWrapperComponent;

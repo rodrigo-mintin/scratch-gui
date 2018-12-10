@@ -31,7 +31,7 @@ export default [
         iconURL: musicImage,
         description: (
             <FormattedMessage
-                defaultMessage="Play instruments and drums."
+                defaultMessage="Robobo extension."
                 description="Description for the 'Music' extension"
                 id="gui.extension.robobo.description"
             />

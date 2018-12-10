@@ -32,7 +32,7 @@ const StageComponent = props => {
     const stageDimensions = getStageDimensions(stageSize, isFullScreen);
 
     return (
-        <div>
+        <div>            
             <Box
                 className={classNames({
                     [styles.stageWrapper]: !isFullScreen,
@@ -44,7 +44,7 @@ const StageComponent = props => {
                     minWidth: stageDimensions.width
                 }}
                 onDoubleClick={onDoubleClick}
-            >
+            >                
                 <DOMElementRenderer
                     className={classNames(
                         styles.stage,

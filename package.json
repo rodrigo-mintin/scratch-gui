@@ -28,9 +28,6 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
-  "dependencies": {
-    "scratch-vm": "github:mytechia/scratch-vm#develop"
-  },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
