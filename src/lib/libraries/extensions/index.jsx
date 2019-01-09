@@ -2,6 +2,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import musicImage from './music.png';
+import roboboImage from './test-robobo-ext.png';
 import penImage from './pen.png';
 import videoImage from './video-sensing.png';
 import translateImage from './translate.png';
@@ -28,7 +29,7 @@ export default [
             />
         ),
         extensionId: 'robobo',
-        iconURL: musicImage,
+        iconURL: roboboImage,
         description: (
             <FormattedMessage
                 defaultMessage="Robobo extension."

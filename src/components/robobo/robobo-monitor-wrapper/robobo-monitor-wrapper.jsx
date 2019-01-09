@@ -5,7 +5,7 @@ import VM from 'scratch-vm';
 import Box from '../../box/box.jsx';
 import {STAGE_DISPLAY_SIZES} from '../../../lib/layout-constants.js';
 import StageHeader from '../../../containers/stage-header.jsx';
-import Stage from '../../../containers/stage.jsx';
+import {getStageDimensions} from '../../../lib/screen-utils.js';
 
 import styles from './robobo-monitor-wrapper.css';
 
@@ -16,16 +16,27 @@ const RoboboMonitorWrapperComponent = function (props) {
         vm
     } = props;
 
+    const stageDimensions = getStageDimensions(stageSize, false);
+
     return (
         <Box className={styles.stageWrapper}>
-            <Box className={styles.stageMenuWrapper}>
+            <Box className={styles.stageMenuWrapper} >
                 <StageHeader
                     stageSize={stageSize}
                     vm={vm}
                 />
             </Box>
-            <Box className={styles.stageCanvasWrapper}>
-                <div>PRUEBA</div>
+            
+            <Box             
+            className={styles.stageCanvasWrapper}            
+            style={{
+                    minHeight: stageDimensions.height,
+                    minWidth: stageDimensions.width
+                }}                  
+            >
+                <div className={styles.mydiv}>
+                <iframe className={styles.roboboIframe} src='static/robobo-monitor/robobo-monitor.html'></iframe>
+                </div>
             </Box>
         </Box>
     );    

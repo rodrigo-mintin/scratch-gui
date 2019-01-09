@@ -59,7 +59,9 @@ import remixIcon from './icon--remix.svg';
 import dropdownCaret from './dropdown-caret.svg';
 import languageIcon from '../language-selector/language-icon.svg';
 
-import scratchLogo from './scratch-logo.svg';
+//import scratchLogo from './scratch-logo.svg';
+
+import scratchLogo from './logo_robobo.png';
 
 const ariaMessages = defineMessages({
     language: {

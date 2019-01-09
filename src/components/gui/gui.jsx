@@ -263,7 +263,7 @@ const GUIComponent = props => {
                                         />
                                     </Tab>
                                 </TabList>
-                                <TabPanel className={tabClassNames.tabPanel}>
+                                <TabPanel className={tabClassNames.tabPanel}>                                    
                                     <Box className={styles.blocksWrapper}>
                                         <Blocks
                                             grow={1}
