@@ -7,7 +7,6 @@ import React from 'react';
 import VMScratchBlocks from '../lib/blocks';
 import VM from 'scratch-vm';
 
-import analytics from '../lib/analytics';
 import log from '../lib/log.js';
 import Prompt from './prompt.jsx';
 import BlocksComponent from '../components/blocks/blocks.jsx';
@@ -16,6 +15,8 @@ import extensionData from '../lib/libraries/extensions/index.jsx';
 import CustomProcedures from './custom-procedures.jsx';
 import errorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
 import {STAGE_DISPLAY_SIZES} from '../lib/layout-constants';
+import DropAreaHOC from '../lib/drop-area-hoc.jsx';
+import DragConstants from '../lib/drag-constants';
 
 import {connect} from 'react-redux';
 import {updateToolbox} from '../reducers/toolbox';
@@ -38,6 +39,10 @@ const addFunctionListener = (object, property, callback) => {
     };
 };
 
+const DroppableBlocks = DropAreaHOC([
+    DragConstants.BACKPACK_CODE
+])(BlocksComponent);
+
 class Blocks extends React.Component {
     constructor (props) {
         super(props);
@@ -47,6 +52,7 @@ class Blocks extends React.Component {
             'detachVM',
             'handleCategorySelected',
             'handleConnectionModalStart',
+            'handleDrop',
             'handleStatusButtonUpdate',
             'handleOpenSoundRecorder',
             'handlePromptStart',
@@ -106,8 +112,6 @@ class Blocks extends React.Component {
         if (this.props.isVisible) {
             this.setLocale();
         }
-
-        analytics.pageview('/editors/blocks');
     }
     shouldComponentUpdate (nextProps, nextState) {
         return (
@@ -318,7 +322,9 @@ class Blocks extends React.Component {
             // incomplete. Throwing the error would keep things like setting the
             // correct editing target from happening which can interfere with
             // some blocks and processes in the vm.
-            error.message = `Workspace Update Error: ${error.message}`;
+            if (error.message) {
+                error.message = `Workspace Update Error: ${error.message}`;
+            }
             log.error(error);
         }
         this.workspace.addChangeListener(this.props.vm.blockListener);
@@ -373,10 +379,11 @@ class Blocks extends React.Component {
             this.ScratchBlocks.Msg.VARIABLE_MODAL_TITLE;
         p.prompt.varType = typeof optVarType === 'string' ?
             optVarType : this.ScratchBlocks.SCALAR_VARIABLE_TYPE;
-        p.prompt.showMoreOptions =
+        p.prompt.showVariableOptions = // This flag means that we should show variable/list options about scope
             optVarType !== this.ScratchBlocks.BROADCAST_MESSAGE_VARIABLE_TYPE &&
             p.prompt.title !== this.ScratchBlocks.Msg.RENAME_VARIABLE_MODAL_TITLE &&
             p.prompt.title !== this.ScratchBlocks.Msg.RENAME_LIST_MODAL_TITLE;
+        p.prompt.showCloudOption = (optVarType === this.ScratchBlocks.SCALAR_VARIABLE_TYPE) && this.props.canUseCloud;
         this.setState(p);
     }
     handleConnectionModalStart (extensionId) {
@@ -388,11 +395,17 @@ class Blocks extends React.Component {
     handleOpenSoundRecorder () {
         this.props.onOpenSoundRecorder();
     }
-    handlePromptCallback (input, optionSelection) {
+
+    /*
+     * Pass along information about proposed name and variable options (scope and isCloud)
+     * and additional potentially conflicting variable names from the VM
+     * to the variable validation prompt callback used in scratch-blocks.
+     */
+    handlePromptCallback (input, variableOptions) {
         this.state.prompt.callback(
             input,
             this.props.vm.runtime.getAllVarNamesOfType(this.state.prompt.varType),
-            optionSelection);
+            variableOptions);
         this.handlePromptClose();
     }
     handlePromptClose () {
@@ -404,10 +417,19 @@ class Blocks extends React.Component {
         ws.refreshToolboxSelection_();
         ws.toolbox_.scrollToCategoryById('myBlocks');
     }
+    handleDrop (dragInfo) {
+        fetch(dragInfo.payload.bodyUrl)
+            .then(response => response.json())
+            .then(blocks => this.props.vm.shareBlocksToTarget(blocks, this.props.vm.editingTarget.id))
+            .then(() => {
+                this.props.vm.refreshWorkspace();
+            });
+    }
     render () {
         /* eslint-disable no-unused-vars */
         const {
             anyModalVisible,
+            canUseCloud,
             customProceduresVisible,
             extensionLibraryVisible,
             options,
@@ -427,18 +449,21 @@ class Blocks extends React.Component {
         } = this.props;
         /* eslint-enable no-unused-vars */
         return (
-            <div>
-                <BlocksComponent
+            <React.Fragment>
+                <DroppableBlocks
                     componentRef={this.setBlocks}
+                    onDrop={this.handleDrop}
                     {...props}
                 />
                 {this.state.prompt ? (
                     <Prompt
+                        defaultValue={this.state.prompt.defaultValue}
                         isStage={vm.runtime.getEditingTarget().isStage}
                         label={this.state.prompt.message}
-                        placeholder={this.state.prompt.defaultValue}
-                        showMoreOptions={this.state.prompt.showMoreOptions}
+                        showCloudOption={this.state.prompt.showCloudOption}
+                        showVariableOptions={this.state.prompt.showVariableOptions}
                         title={this.state.prompt.title}
+                        vm={vm}
                         onCancel={this.handlePromptClose}
                         onOk={this.handlePromptCallback}
                     />
@@ -458,13 +483,14 @@ class Blocks extends React.Component {
                         onRequestClose={this.handleCustomProceduresClose}
                     />
                 ) : null}
-            </div>
+            </React.Fragment>
         );
     }
 }
 
 Blocks.propTypes = {
     anyModalVisible: PropTypes.bool,
+    canUseCloud: PropTypes.bool,
     customProceduresVisible: PropTypes.bool,
     extensionLibraryVisible: PropTypes.bool,
     isRtl: PropTypes.bool,

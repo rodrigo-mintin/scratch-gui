@@ -2,7 +2,7 @@
 @import "../../css/z-index.css";
 
 .background {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -152,6 +152,12 @@
     transform: translateY(0px) scaleX(-1);
     opacity: 1;
   }
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0.75rem 0;
 }
 
 .message-container-outer {

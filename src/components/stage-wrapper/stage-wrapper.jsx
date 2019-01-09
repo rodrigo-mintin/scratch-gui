@@ -6,18 +6,24 @@ import Box from '../box/box.jsx';
 import {STAGE_DISPLAY_SIZES} from '../../lib/layout-constants.js';
 import StageHeader from '../../containers/stage-header.jsx';
 import Stage from '../../containers/stage.jsx';
+import Loader from '../loader/loader.jsx';
 
 import styles from './stage-wrapper.css';
 
 const StageWrapperComponent = function (props) {
     const {
+        isRtl,
         isRendererSupported,
+        loading,
         stageSize,
         vm
     } = props;
 
     return (
-        <Box className={styles.stageWrapper}>
+        <Box
+            className={styles.stageWrapper}
+            dir={isRtl ? 'rtl' : 'ltr'}
+        >
             <Box className={styles.stageMenuWrapper}>
                 <StageHeader
                     stageSize={stageSize}
@@ -34,12 +40,17 @@ const StageWrapperComponent = function (props) {
                         null
                 }
             </Box>
+            {loading ? (
+                <Loader />
+            ) : null}
         </Box>
     );    
 };
 
 StageWrapperComponent.propTypes = {
     isRendererSupported: PropTypes.bool.isRequired,
+    isRtl: PropTypes.bool,
+    loading: PropTypes.bool,
     stageSize: PropTypes.oneOf(Object.keys(STAGE_DISPLAY_SIZES)).isRequired,
     vm: PropTypes.instanceOf(VM).isRequired
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import styles from './loader.css';
+import PropTypes from 'prop-types';
 
 import topBlock from './top-block.svg';
 import middleBlock from './middle-block.svg';
@@ -97,6 +98,22 @@ const messages = [
         weight: 1
     }
 ];
+const mainMessages = {
+    'gui.loader.headline': (
+        <FormattedMessage
+            defaultMessage="Loading Project"
+            description="Main loading message"
+            id="gui.loader.headline"
+        />
+    ),
+    'gui.loader.creating': (
+        <FormattedMessage
+            defaultMessage="Creating Project"
+            description="Main creating message"
+            id="gui.loader.creating"
+        />
+    )
+};
 
 class LoaderComponent extends React.Component {
     constructor (props) {
@@ -147,13 +164,9 @@ class LoaderComponent extends React.Component {
                             src={bottomBlock}
                         />
                     </div>
-                    <h1 className={styles.title}>
-                        <FormattedMessage
-                            defaultMessage="Loading Project"
-                            description="Main loading message"
-                            id="gui.loader.headline"
-                        />
-                    </h1>
+                    <div className={styles.title}>
+                        {mainMessages[this.props.messageId]}
+                    </div>
                     <div className={styles.messageContainerOuter}>
                         <div
                             className={styles.messageContainerInner}
@@ -174,5 +187,12 @@ class LoaderComponent extends React.Component {
         );
     }
 }
+
+LoaderComponent.propTypes = {
+    messageId: PropTypes.string
+};
+LoaderComponent.defaultProps = {
+    messageId: 'gui.loader.headline'
+};
 
 export default LoaderComponent;

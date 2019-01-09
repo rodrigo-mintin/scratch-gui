@@ -310,11 +310,18 @@ $fade-out-distance: 15px;
 /* Alerts */
 
 .alerts-container {
-    width: 448px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
     z-index: $z-index-alerts;
-    left: 0;
-    right: 0;
-    margin: auto;
     position: absolute;
     margin-top: 53px;
+}
+
+/*
+    Make the (background) page not scrollable when modals are open
+    This CSS class is automatically added to the body when react-modal is open
+*/
+:global(.ReactModal__Body--open) {
+    overflow: hidden;
 }

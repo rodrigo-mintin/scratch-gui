@@ -18,8 +18,7 @@ import unFullScreenIcon from './icon--unfullscreen.svg';
 
 //Robobo
 import roboboStageIcon from './icon--robobo-stage.svg';
-
-
+import scratchLogo from '../menu-bar/scratch-logo.svg';
 import styles from './stage-header.css';
 
 const messages = defineMessages({
@@ -66,6 +65,7 @@ const StageHeaderComponent = function (props) {
         onSetStageNoDisplay, // Robobo
         onSetStageFull,
         onSetStageUnFull,
+        showBranding,
         stageSizeMode,
         vm
     } = props;
@@ -74,6 +74,34 @@ const StageHeaderComponent = function (props) {
 
     if (isFullScreen) {
         const stageDimensions = getStageDimensions(null, true);
+        const stageButton = showBranding ? (
+            <div className={styles.embedScratchLogo}>
+                <a
+                    href="https://scratch.mit.edu"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                >
+                    <img
+                        alt="Scratch"
+                        src={scratchLogo}
+                    />
+                </a>
+            </div>
+        ) : (
+            <Button
+                className={styles.stageButton}
+                onClick={onSetStageUnFull}
+                onKeyPress={onKeyPress}
+            >
+                <img
+                    alt={props.intl.formatMessage(messages.unFullStageSizeMessage)}
+                    className={styles.stageButtonIcon}
+                    draggable={false}
+                    src={unFullScreenIcon}
+                    title={props.intl.formatMessage(messages.fullscreenControl)}
+                />
+            </Button>
+        );
         header = (
             <Box className={styles.stageHeaderWrapperOverlay}>
                 <Box
@@ -81,19 +109,7 @@ const StageHeaderComponent = function (props) {
                     style={{width: stageDimensions.width}}
                 >
                     <Controls vm={vm} />
-                    <Button
-                        className={styles.stageButton}
-                        onClick={onSetStageUnFull}
-                        onKeyPress={onKeyPress}
-                    >
-                        <img
-                            alt={props.intl.formatMessage(messages.unFullStageSizeMessage)}
-                            className={styles.stageButtonIcon}
-                            draggable={false}
-                            src={unFullScreenIcon}
-                            title={props.intl.formatMessage(messages.fullscreenControl)}
-                        />
-                    </Button>
+                    {stageButton}
                 </Box>
             </Box>
         );
@@ -203,6 +219,7 @@ StageHeaderComponent.propTypes = {
     onSetStageSmall: PropTypes.func.isRequired,
     onSetStageNoDisplay: PropTypes.func.isRequired, // Robobo
     onSetStageUnFull: PropTypes.func.isRequired,
+    showBranding: PropTypes.bool.isRequired,
     stageSizeMode: PropTypes.oneOf(Object.keys(STAGE_SIZE_MODES)),
     vm: PropTypes.instanceOf(VM).isRequired
 };
