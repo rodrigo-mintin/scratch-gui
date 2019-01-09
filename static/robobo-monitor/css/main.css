@@ -11,7 +11,7 @@
 html {
   overflow-y: scroll;
   overflow-x: hidden;
-  background: #fff;
+  background: #f9f9f9; /*#fff;*/
 }
 html.dragging body {
   -moz-user-select: none;
