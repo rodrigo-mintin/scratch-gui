@@ -38,8 +38,7 @@ export default [
             />
         ),
         featured: true
-    },
-/*    
+    },    
     {
         name: (
             <FormattedMessage
@@ -215,6 +214,5 @@ export default [
         ),
         helpLink: 'https://scratch.mit.edu/wedo'
 
-    }
-*/    
+    } 
 ];
