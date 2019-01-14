@@ -122,7 +122,7 @@ const initPreviewInfo = function (currentState) {
         currentState,
         {
             modals: {
-                previewInfo: true // this key must match `MODAL_PREVIEW_INFO` in modals.js
+                previewInfo: false // this key must match `MODAL_PREVIEW_INFO` in modals.js
             }
         }
     );

@@ -37,6 +37,7 @@ export default [
         ),
         extensionId: 'robobo',
         iconURL: roboboImage,
+        insetIconURL: musicInsetImage,
         description: (
             <FormattedMessage
                 defaultMessage="Robobo extension."
@@ -44,7 +45,8 @@ export default [
                 id="gui.extension.robobo.description"
             />
         ),
-        featured: true
+        featured: true,
+        internetConnectionRequired: true
     },    
     {
         name: (

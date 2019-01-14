@@ -35,7 +35,7 @@ const RoboboMonitorWrapperComponent = function (props) {
                 }}                  
             >
                 <div className={styles.mydiv}>
-                <iframe className={styles.roboboIframe} src='static/robobo-monitor/robobo-monitor.html'></iframe>
+                    <iframe className={styles.roboboIframe} src='static/robobo-monitor/robobo-monitor.html'></iframe>
                 </div>
             </Box>
         </Box>
