@@ -459,17 +459,18 @@ class MenuBar extends React.Component {
                         </div>
                     </div>
                     <Divider className={classNames(styles.divider)} />
-                    <div
-                        aria-label={this.props.intl.formatMessage(ariaMessages.tutorials)}
-                        className={classNames(styles.menuBarItem, styles.hoverable)}
-                        onClick={this.props.onOpenTipLibrary}
-                    >
-                        <img
-                            className={styles.helpIcon}
-                            src={helpIcon}
-                        />
-                        <FormattedMessage {...ariaMessages.tutorials} />
-                    </div>
+                    <MenuBarItemTooltip id="help-button">
+                        <div
+                            aria-label={this.props.intl.formatMessage(ariaMessages.tutorials)}
+                            className={classNames(styles.menuBarItem, styles.hoverable)}                       
+                        >
+                            <img
+                                className={styles.helpIcon}
+                                src={helpIcon}
+                            />
+                            <FormattedMessage {...ariaMessages.tutorials} />                       
+                            </div>
+                    </MenuBarItemTooltip>
                     <Divider className={classNames(styles.divider)} />
                     {this.props.canEditTitle ? (
                         <div className={classNames(styles.menuBarItem, styles.growable)}>
@@ -630,10 +631,10 @@ class MenuBar extends React.Component {
                     ) : (
                         // ******** no login session is available, so don't show login stuff
                         <React.Fragment>
-                            <div className={classNames(styles.menuBarItem, styles.feedbackButtonWrapper)}>
+                            <div className={classNames(styles.menuBarItem, styles.feedbackButtonWrapper)}>                            
                                 <a
                                     className={styles.feedbackLink}
-                                    href="https://scratch.mit.edu/discuss/topic/312261/"
+                                    href="https://theroboboproject.com/en/support"
                                     rel="noopener noreferrer"
                                     target="_blank"
                                 >
