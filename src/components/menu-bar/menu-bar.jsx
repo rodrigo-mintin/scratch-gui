@@ -631,6 +631,24 @@ class MenuBar extends React.Component {
                     ) : (
                         // ******** no login session is available, so don't show login stuff
                         <React.Fragment>
+
+                            <div className={classNames(styles.menuBarItem, styles.feedbackButtonWrapper)}>                            
+                                <a
+                                    className={styles.feedbackLink}
+                                    href="https://education.theroboboproject.com"
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                >
+                                    <Button
+                                        className={styles.feedbackButton}
+                                        iconSrc={feedbackIcon}
+                                    >
+                                        Robobo Educational Portal
+                                    </Button>
+                                </a>
+                            </div>
+
+                        {/* 
                             <div className={classNames(styles.menuBarItem, styles.feedbackButtonWrapper)}>                            
                                 <a
                                     className={styles.feedbackLink}
@@ -649,7 +667,8 @@ class MenuBar extends React.Component {
                                         />
                                     </Button>
                                 </a>
-                            </div>
+                            </div>   
+                        */}                              
                             {this.props.showComingSoon ? (
                                 <React.Fragment>
                                     <MenuBarItemTooltip id="mystuff">

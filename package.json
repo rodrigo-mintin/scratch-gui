@@ -30,7 +30,7 @@
     "react-dom": "^16.0.0"
   },
   "dependencies": {
-    "scratch-vm": "github:mytechia/scratch-vm#develop-monitor"
+    "scratch-vm": "github:mintforpeople/scratch-vm#develop-monitor"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
