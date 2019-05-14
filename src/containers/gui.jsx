@@ -52,6 +52,10 @@ class GUI extends React.Component {
         setIsScratchDesktop(this.props.isScratchDesktop);
         this.setReduxTitle(this.props.projectTitle);
         this.props.onStorageInit(storage);
+
+        //Load the Robobo Extension
+        const roboboExtensionID = 'robobo';
+        this.props.vm.extensionManager.loadExtensionURL(roboboExtensionID);
     }
     componentDidUpdate (prevProps) {
         if (this.props.projectId !== prevProps.projectId && this.props.projectId !== null) {
@@ -96,6 +100,7 @@ class GUI extends React.Component {
             loadingStateVisible,
             ...componentProps
         } = this.props;
+        
         return (
             <GUIComponent
                 loading={fetchingProject || isLoading || loadingStateVisible}
