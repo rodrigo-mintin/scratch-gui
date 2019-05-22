@@ -1,3 +1,4 @@
+import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {compose} from 'redux';
@@ -53,6 +54,11 @@ class GUI extends React.Component {
         this.setReduxTitle(this.props.projectTitle);
         this.props.onStorageInit(storage);
 
+        bindAll(this, [
+            'handleClickRoboboConnectionButton',
+            'handleClickRoboboDisconnectionButton'
+        ]);        
+
         //Load the Robobo Extension
         const roboboExtensionID = 'robobo';
         this.props.vm.extensionManager.loadExtensionURL(roboboExtensionID);
@@ -74,6 +80,28 @@ class GUI extends React.Component {
             this.props.onUpdateReduxProjectTitle(newTitle);
         }
     }
+
+    /**
+     * Sends the roboboIP to VM:
+     *      1 - The VM will notify runtime 
+     *      2 - The runtime will trigger an event
+     *      3 - The Robobo Extension, subscribed to this event, will stablish the connection
+     * @param {string} roboboIP 
+     */
+    handleClickRoboboConnectionButton(roboboIP) {
+        this.props.vm.roboboConnectButtonClick(roboboIP);
+    }
+
+    /**
+     * Notices the VM the diconnection button was clicked.
+     *  1 - The VM will notify runtime
+     *  2 - The runtime will trigger an event
+     *  3 - The Robobo Extension, subscribed to this event, will close connection 
+     */
+    handleClickRoboboDisconnectionButton() {
+        this.props.vm.roboboDisconnectButtonClick();
+    }
+
     render () {
         if (this.props.isError) {
             throw new Error(
@@ -104,6 +132,8 @@ class GUI extends React.Component {
         return (
             <GUIComponent
                 loading={fetchingProject || isLoading || loadingStateVisible}
+                onClickRoboboConnectButton={this.handleClickRoboboConnectionButton}
+                onClickRoboboDisconnectButton={this.handleClickRoboboDisconnectionButton}
                 {...componentProps}
             >
                 {children}

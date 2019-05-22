@@ -118,6 +118,8 @@ const GUIComponent = props => {
         telemetryModalVisible,
         tipsLibraryVisible,
         vm,
+        onClickRoboboConnectButton,
+        onClickRoboboDisconnectButton,
         ...componentProps
     } = omit(props, 'dispatch');
     if (children) {
@@ -234,6 +236,8 @@ const GUIComponent = props => {
                     onShare={onShare}
                     onToggleLoginOpen={onToggleLoginOpen}
                     onUpdateProjectTitle={onUpdateProjectTitle}
+                    onClickRoboboConnectButton={onClickRoboboConnectButton}
+                    onClickRoboboDisconnectButton={onClickRoboboDisconnectButton}
                 />
                 <Box className={styles.bodyWrapper}>
                     <Box className={styles.flexWrapper}>
@@ -339,10 +343,10 @@ const GUIComponent = props => {
 
                         <Box className={classNames(styles.stageAndTargetWrapper, styles[stageSize])}>
                             { roboboMonitor ? (                            
-                                <RoboboWrapper
-                                    isRendererSupported={isRendererSupported}
+                                <RoboboWrapper                                   
                                     stageSize={stageSize}
-                                    vm={vm}
+                                    vm={vm}            
+                                    roboboMonitorUrl='static/robobo-monitor/robobo-monitor.html?status=disconnected'
                                 />
                             ) : (                                    
                                 <StageWrapper
@@ -429,7 +433,9 @@ GUIComponent.propTypes = {
     targetIsStage: PropTypes.bool,
     telemetryModalVisible: PropTypes.bool,
     tipsLibraryVisible: PropTypes.bool,
-    vm: PropTypes.instanceOf(VM).isRequired
+    vm: PropTypes.instanceOf(VM).isRequired,
+    onClickRoboboConnectButton: PropTypes.func,
+    onClickRoboboDisConnectButton: PropTypes.func
 };
 GUIComponent.defaultProps = {
     backpackHost: null,

@@ -15,6 +15,7 @@
   <body onLoad="createElements()">
     <section id ="monitor" class="monitor">
       <div class="grid">
+<!--
         <div class="item" data-id="1" id="connection-block">
           <div class="item-content">
             <div class="card-left-icon"><img src="img/icon.png"></div>
@@ -29,6 +30,7 @@
             </div>
           </div>
         </div>        
+-->        
         <div class="item" data-id="2">
           <div class="item-content">
             <div class="card">
@@ -292,16 +294,21 @@
 
         if (params.status != undefined) {
           if (params.status == 'disconnected') {
+            console.log('desde el monitor --> estado disconnected');
             document.getElementById('monitor').classList.add('disconnected');
           }
         }else {
+          console.log('desde el monitor --> borra estado disconnected');        
           document.getElementById('monitor').classList.remove('disconnected')
         }
 
-        if (params.ip != undefined) {          
+        if (params.ip != undefined) {  
+          console.log('desde el monitor --> recibe la ip = '+params.ip);   
+          /*               
           document.getElementById('roboboip').value = params.ip;
           document.getElementById('roboboip').disabled = true;
           document.getElementById('connectionButton').disabled = true;
+          */
           rem = doConnection(params.ip);
         }
 

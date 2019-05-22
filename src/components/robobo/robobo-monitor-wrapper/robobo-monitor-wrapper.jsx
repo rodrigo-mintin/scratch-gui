@@ -9,12 +9,14 @@ import {getStageDimensions} from '../../../lib/screen-utils.js';
 
 import styles from './robobo-monitor-wrapper.css';
 
+
 const RoboboMonitorWrapperComponent = function (props) {
     const {
-        isRendererSupported,
         stageSize,
-        vm
+        vm,
+        roboboMonitorUrl
     } = props;
+
 
     const stageDimensions = getStageDimensions(stageSize, false);
 
@@ -35,17 +37,19 @@ const RoboboMonitorWrapperComponent = function (props) {
                 }}                  
             >
                 <div className={styles.mydiv}>
-                    <iframe className={styles.roboboIframe} src='static/robobo-monitor/robobo-monitor.html'></iframe>
+                    <iframe className={styles.roboboIframe} src={roboboMonitorUrl}></iframe>
                 </div>
             </Box>
         </Box>
     );    
 };
 
+
 RoboboMonitorWrapperComponent.propTypes = {
-    isRendererSupported: PropTypes.bool.isRequired,
     stageSize: PropTypes.oneOf(Object.keys(STAGE_DISPLAY_SIZES)).isRequired,
     vm: PropTypes.instanceOf(VM).isRequired
 };
 
 export default RoboboMonitorWrapperComponent;
+
+

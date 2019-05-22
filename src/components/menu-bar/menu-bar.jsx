@@ -24,6 +24,7 @@ import LoginDropdown from './login-dropdown.jsx';
 import SB3Downloader from '../../containers/sb3-downloader.jsx';
 import DeletionRestorer from '../../containers/deletion-restorer.jsx';
 import TurboMode from '../../containers/turbo-mode.jsx';
+import RoboboConnectionForm from './robobo-connection-form.jsx';
 
 import {openTipsLibrary} from '../../reducers/modals';
 import {setPlayer} from '../../reducers/mode';
@@ -180,6 +181,7 @@ class MenuBar extends React.Component {
         this.props.onClickRemix();
         this.props.onRequestCloseFile();
     }
+
     handleClickSave () {
         this.props.onClickSave();
         this.props.onRequestCloseFile();
@@ -255,6 +257,7 @@ class MenuBar extends React.Component {
         }
         }
     }
+
     render () {
         const saveNowMessage = (
             <FormattedMessage
@@ -471,6 +474,7 @@ class MenuBar extends React.Component {
                             <FormattedMessage {...ariaMessages.tutorials} />                       
                             </div>
                     </MenuBarItemTooltip>
+                   
                     <Divider className={classNames(styles.divider)} />
                     {this.props.canEditTitle ? (
                         <div className={classNames(styles.menuBarItem, styles.growable)}>
@@ -492,9 +496,24 @@ class MenuBar extends React.Component {
                             userId={this.props.authorId}
                             username={this.props.authorUsername}
                         />
-                    ) : null)}
+                    ) : null)}   
+                    <div className={classNames(styles.menuBarItem, styles.feedbackButtonWrapper)}>                            
+                                <a
+                                    className={styles.feedbackLink}
+                                    href="https://education.theroboboproject.com"
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                >
+                                    <Button
+                                        className={styles.feedbackButton}
+                                        iconSrc={feedbackIcon}
+                                    >
+                                        Robobo Educational Portal
+                                    </Button>
+                                </a>
+                    </div>                                        
                     <div className={classNames(styles.menuBarItem)}>
-                        {this.props.canShare ? (
+                        {/*this.props.canShare ? (
                             (this.props.isShowingProject || this.props.isUpdating) && (
                                 <ProjectWatcher onDoneUpdating={this.props.onSeeCommunity}>
                                     {
@@ -502,11 +521,11 @@ class MenuBar extends React.Component {
                                             <ShareButton
                                                 className={styles.menuBarButton}
                                                 isShared={this.props.isShared}
-                                                /* eslint-disable react/jsx-no-bind */
+                                                // eslint-disable react/jsx-no-bind 
                                                 onClick={() => {
                                                     this.handleClickShare(waitForUpdate);
                                                 }}
-                                                /* eslint-enable react/jsx-no-bind */
+                                                // eslint-enable react/jsx-no-bind
                                             />
                                         )
                                     }
@@ -518,22 +537,22 @@ class MenuBar extends React.Component {
                                     <ShareButton className={styles.menuBarButton} />
                                 </MenuBarItemTooltip>
                             ) : []
-                        )}
+                        )*/}
                         {this.props.canRemix ? remixButton : []}
                     </div>
                     <div className={classNames(styles.menuBarItem, styles.communityButtonWrapper)}>
-                        {this.props.enableCommunity ? (
+                        {/*this.props.enableCommunity ? (
                             (this.props.isShowingProject || this.props.isUpdating) && (
                                 <ProjectWatcher onDoneUpdating={this.props.onSeeCommunity}>
                                     {
                                         waitForUpdate => (
                                             <CommunityButton
                                                 className={styles.menuBarButton}
-                                                /* eslint-disable react/jsx-no-bind */
+                                                //eslint-disable react/jsx-no-bind 
                                                 onClick={() => {
                                                     this.handleClickSeeCommunity(waitForUpdate);
                                                 }}
-                                                /* eslint-enable react/jsx-no-bind */
+                                                // eslint-enable react/jsx-no-bind 
                                             />
                                         )
                                     }
@@ -543,7 +562,7 @@ class MenuBar extends React.Component {
                             <MenuBarItemTooltip id="community-button">
                                 <CommunityButton className={styles.menuBarButton} />
                             </MenuBarItemTooltip>
-                        ) : [])}
+                        ) : [])*/}
                     </div>
                 </div>
 
@@ -629,25 +648,11 @@ class MenuBar extends React.Component {
                             </React.Fragment>
                         )
                     ) : (
-                        // ******** no login session is available, so don't show login stuff
-                        <React.Fragment>
-
-                            <div className={classNames(styles.menuBarItem, styles.feedbackButtonWrapper)}>                            
-                                <a
-                                    className={styles.feedbackLink}
-                                    href="https://education.theroboboproject.com"
-                                    rel="noopener noreferrer"
-                                    target="_blank"
-                                >
-                                    <Button
-                                        className={styles.feedbackButton}
-                                        iconSrc={feedbackIcon}
-                                    >
-                                        Robobo Educational Portal
-                                    </Button>
-                                </a>
-                            </div>
-
+                        <React.Fragment>                                         
+                            <RoboboConnectionForm
+                                onClickRoboboConnectButton={this.props.onClickRoboboConnectButton}
+                                onClickRoboboDisconnectButton={this.props.onClickRoboboDisconnectButton}
+                            />                                                             
                         {/* 
                             <div className={classNames(styles.menuBarItem, styles.feedbackButtonWrapper)}>                            
                                 <a
@@ -669,7 +674,7 @@ class MenuBar extends React.Component {
                                 </a>
                             </div>   
                         */}                              
-                            {this.props.showComingSoon ? (
+                            {/*this.props.showComingSoon ? (
                                 <React.Fragment>
                                     <MenuBarItemTooltip id="mystuff">
                                         <div
@@ -710,7 +715,7 @@ class MenuBar extends React.Component {
                                         </div>
                                     </MenuBarItemTooltip>
                                 </React.Fragment>
-                            ) : []}
+                            ) : []*/}
                         </React.Fragment>
                     )}
                 </div>
@@ -769,7 +774,9 @@ MenuBar.propTypes = {
     renderLogin: PropTypes.func,
     sessionExists: PropTypes.bool,
     showComingSoon: PropTypes.bool,
-    username: PropTypes.string
+    username: PropTypes.string,
+    onClickRoboboConnectButton: PropTypes.func,
+    onClickRoboboDisconnectButton: PropTypes.func 
 };
 
 MenuBar.defaultProps = {
