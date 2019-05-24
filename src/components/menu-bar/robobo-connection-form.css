@@ -17,6 +17,9 @@ can set a width for example or what it should do in a flex box (eg. grow).
     -webkit-background-clip: padding-box;
     height: auto;
     padding: .5rem;
+    margin-left: 5px;
+    width: 130px;
+    text-align: right;
 }
 
 .title-field {
@@ -50,5 +53,5 @@ can set a width for example or what it should do in a flex box (eg. grow).
     background-color: $ui-white;   
     color: $motion-primary;
     height: 30px;
-    margin-left: 2px;
+    margin-left: 5px;
 }

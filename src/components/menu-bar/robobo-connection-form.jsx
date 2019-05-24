@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import bindAll from 'lodash.bindall';
 import React from 'react';
 
-import {intlShape, injectIntl} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+
 
 import Input from '../forms/input.jsx';
 import Button from '../button/button.jsx';
@@ -43,6 +44,11 @@ class RoboboConnectionForm extends React.Component {
     render () {
         return (
             <div className={classNames(menuBarStyles.menuBarItem, menuBarStyles.feedbackButtonWrapper)}>  
+                <FormattedMessage
+                    defaultMessage="Robobo IP"
+                    description="Robob IP Address to establish the connection"
+                    id="gui.menuBar.roboboIP"
+                />            
                 <Input
                     value={this.state.roboboIP}
                     className={styles.titleField}
