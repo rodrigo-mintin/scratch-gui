@@ -16,11 +16,11 @@ class RoboboWrapper extends React.PureComponent {
         console.log('RoboboWrapper props: ')
         console.log(props);
         bindAll(this, [
-            'handleRoboboConnectButtonClick',
+            'handleRoboboConnectionEstablished',
             'handleRoboboDisconnectButtonClick'
         ]);
 
-        if (this.props.vm.runtime.roboboIP == undefined) {
+        if ((this.props.vm.runtime.roboboIP == undefined)||(!this.props.vm.runtime.roboboConnected)) {
             this.state = {
                 roboboMonitorUrl: 'static/robobo-monitor/robobo-monitor.html?status=disconnected' 
             };       
@@ -29,26 +29,20 @@ class RoboboWrapper extends React.PureComponent {
                 roboboMonitorUrl: 'static/robobo-monitor/robobo-monitor.html?ip='+ this.props.vm.runtime.roboboIP
             };       
         }
-        this.props.vm.on('ROBOBO_CONNECT_BUTTON_CLICK', this.handleRoboboConnectButtonClick);           
+        this.props.vm.on('ROBOBO_CONNECTION_ESTABLISHED', this.handleRoboboConnectionEstablished);           
         this.props.vm.on('ROBOBO_DISCONNECT_BUTTON_CLICK', this.handleRoboboDisconnectButtonClick);           
     }        
 
-    handleRoboboConnectButtonClick() {
-        console.log('connection button clicked !! - IP:');
-        console.log(this.props.vm.runtime.roboboIP);     
+    handleRoboboConnectionEstablished() {
         this.setState({
             roboboMonitorUrl: 'static/robobo-monitor/robobo-monitor.html?ip='+ this.props.vm.runtime.roboboIP
-        }); 
-        //this.render();          
+        });     
     }
 
     handleRoboboDisconnectButtonClick() {
-        console.log('disconnection button clicked !! - IP:');
-        console.log(this.props.vm.runtime.roboboIP);     
         this.setState({
             roboboMonitorUrl: 'static/robobo-monitor/robobo-monitor.html?status=disconnected'
         }); 
-        //this.render();          
     }    
 
     render () {
