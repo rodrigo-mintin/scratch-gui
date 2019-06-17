@@ -55,3 +55,11 @@ can set a width for example or what it should do in a flex box (eg. grow).
     height: 30px;
     margin-left: 5px;
 }
+
+
+.connection-button:active {
+    background-color: #eeeeee;   
+    color: $motion-primary;
+    height: 30px;
+    margin-left: 5px;
+}

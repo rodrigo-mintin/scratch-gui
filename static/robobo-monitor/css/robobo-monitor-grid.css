@@ -346,3 +346,10 @@
 .accel {
   height: 80px;
 }
+
+
+/* qr sensor */
+
+.qr {
+  height: auto;
+}

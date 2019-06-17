@@ -289,6 +289,10 @@ function registerRemoteCallbacks(rem) {
         setElementHTML("color-sensor-value", colorSensor);
     });
 
+    rem.registerCallback("onQR", function() {});
+    rem.registerCallback("onQRAppear", function() {});
+    rem.registerCallback("onQRDisappear", function() {});
+
     rem.registerCallback("onIrChanged",function() {});
     rem.registerCallback("onNewFace",function() {
         faceNew = 1;
@@ -400,7 +404,6 @@ function updateSensors() {
     setElementHTML("facedist-sensor-value", replaceUndefined(rem.getFaceDist()));
 
     // update blob sensor values
-
     setElementHTML("color-sensor-green-x", replaceUndefined(rem.getBlobCoord("green","x")));
     setElementHTML("color-sensor-green-y", replaceUndefined(rem.getBlobCoord("green","y")));
     setElementHTML("color-sensor-green-size", replaceUndefined(rem.getBlobSize("green")));
@@ -413,6 +416,19 @@ function updateSensors() {
     setElementHTML("color-sensor-custom-x", replaceUndefined(rem.getBlobCoord("custom","x")));
     setElementHTML("color-sensor-custom-y", replaceUndefined(rem.getBlobCoord("custom","y")));
     setElementHTML("color-sensor-custom-size", replaceUndefined(rem.getBlobSize("custom")));
+
+      // update qr sensor values
+
+    var qrId = replaceUndefined(rem.getQRId());
+    if (qrId.length > 25) {
+      qrId = qrId.substring(0,24) + '...';
+    }
+
+    setElementHTML("qr-sensor-id", qrId);
+    setElementHTML("qr-sensor-x", replaceUndefined(rem.getQRCoord("x")));
+    setElementHTML("qr-sensor-y", replaceUndefined(rem.getQRCoord("y")));
+    setElementHTML("qr-sensor-size", replaceUndefined(rem.getQRDist()));
+  
 
     // update IR sensors raw value
     var errorValue = 65535; // If the sensor is broken, this value is received.
