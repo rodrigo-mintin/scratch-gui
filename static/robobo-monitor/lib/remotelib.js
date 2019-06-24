@@ -1140,6 +1140,19 @@ Remote.prototype = {
     this.statusmap.set("blobSizecustom",0);
   },
 
+  resetQRSensor: function() {
+    this.statusmap.set("qrid",'');
+    this.statusmap.set("qrx",0);
+    this.statusmap.set("qry",0);
+    this.statusmap.set("qrdist",0);
+    this.statusmap.set("p1x",0);
+    this.statusmap.set("p1y",0);
+    this.statusmap.set("p2x",0);
+    this.statusmap.set("p2y",0);
+    this.statusmap.set("p3x",0);
+    this.statusmap.set("p3y",0);
+  },  
+
   resetNoteSensor : function() {
     this.statusmap.set("lastNote",0);
   },
@@ -1149,7 +1162,6 @@ Remote.prototype = {
   },
 
   resetSensors : function () {
-
     this.resetFaceSensor();
 
     this.resetFlingSensor();
@@ -1168,6 +1180,7 @@ Remote.prototype = {
 
     this.resetClapSensor();
 
+    this.resetQRSensor();
   },
 
   getError : function () {
@@ -1568,12 +1581,19 @@ Remote.prototype = {
     }
 
     else if (msg.name == "QRCODELOST") {
-      
       //console.log("LostQR");
+      this.statusmap.set("qrx",0);
+      this.statusmap.set("qry",0);
+      this.statusmap.set("qrdist",0);
+      this.statusmap.set("p1x",0);
+      this.statusmap.set("p1y",0);
+      this.statusmap.set("p2x",0);
+      this.statusmap.set("p2y",0);
+      this.statusmap.set("p3x",0);
+      this.statusmap.set("p3y",0);
+      this.statusmap.set("qrid",'');        
 
       this.callbackmap.get("onQRDisappear")();
-
-  
     }
 
     else {
