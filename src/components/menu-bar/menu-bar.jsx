@@ -511,7 +511,21 @@ class MenuBar extends React.Component {
                                         Robobo Educational Portal
                                     </Button>
                                 </a>
-                    </div>                                        
+                    </div>      
+                    <div className={classNames(styles.menuBarItem, styles.feedbackButtonWrapper)}>                            
+                                <a
+                                    className={styles.feedbackLink}
+                                    href="https://mintforpeople.com/cdti-neotec"
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                >
+                                    <Button
+                                        className={styles.feedbackButton}                                        
+                                    >
+                                        Acknowledgements
+                                    </Button>
+                                </a>
+                    </div>                       
                     <div className={classNames(styles.menuBarItem)}>
                         {/*this.props.canShare ? (
                             (this.props.isShowingProject || this.props.isUpdating) && (
