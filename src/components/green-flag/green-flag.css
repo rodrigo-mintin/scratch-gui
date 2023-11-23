@@ -8,13 +8,12 @@
     user-select: none;
     user-drag: none;
     cursor: pointer;
-    transition: 0.2s ease-out;
 }
 
 .green-flag:hover {
-    transform: scale(1.2);
+    background-color: $looks-light-transparent;
 }
 
 .green-flag.is-active {
-    background-color: $motion-transparent;
+    background-color: $looks-transparent;
 }

@@ -48,6 +48,9 @@ const STAGE_DISPLAY_SIZES = keyMirror({
     nodisplay: null
 });
 
+// zoom level to start with
+const BLOCKS_DEFAULT_SCALE = 0.675;
+
 const STAGE_DISPLAY_SCALES = {};
 STAGE_DISPLAY_SCALES[STAGE_DISPLAY_SIZES.large] = 1; // large mode, wide browser (standard)
 STAGE_DISPLAY_SCALES[STAGE_DISPLAY_SIZES.largeConstrained] = 0.85; // large mode but narrow browser
@@ -62,6 +65,7 @@ export default {
 };
 
 export {
+    BLOCKS_DEFAULT_SCALE,
     STAGE_DISPLAY_SCALES,
     STAGE_DISPLAY_SIZES,
     STAGE_SIZE_MODES

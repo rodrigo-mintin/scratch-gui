@@ -19,6 +19,7 @@ import xIcon from './icon--x.svg';
 import yIcon from './icon--y.svg';
 import showIcon from './icon--show.svg';
 import hideIcon from './icon--hide.svg';
+import ToggleButtons from '../toggle-buttons/toggle-buttons.jsx';
 
 const BufferedInput = BufferedInputHOC(Input);
 
@@ -27,6 +28,16 @@ const messages = defineMessages({
         id: 'gui.SpriteInfo.spritePlaceholder',
         defaultMessage: 'Name',
         description: 'Placeholder text for sprite name'
+    },
+    showSpriteAction: {
+        id: 'gui.SpriteInfo.showSpriteAction',
+        defaultMessage: 'Show sprite',
+        description: 'Tooltip for show sprite button'
+    },
+    hideSpriteAction: {
+        id: 'gui.SpriteInfo.hideSpriteAction',
+        defaultMessage: 'Hide sprite',
+        description: 'Tooltip for hide sprite button'
     }
 });
 
@@ -34,14 +45,15 @@ class SpriteInfo extends React.Component {
     shouldComponentUpdate (nextProps) {
         return (
             this.props.rotationStyle !== nextProps.rotationStyle ||
-            this.props.direction !== nextProps.direction ||
             this.props.disabled !== nextProps.disabled ||
             this.props.name !== nextProps.name ||
-            this.props.size !== nextProps.size ||
             this.props.stageSize !== nextProps.stageSize ||
             this.props.visible !== nextProps.visible ||
-            this.props.x !== nextProps.x ||
-            this.props.y !== nextProps.y
+            // Only update these if rounded value has changed
+            Math.round(this.props.direction) !== Math.round(nextProps.direction) ||
+            Math.round(this.props.size) !== Math.round(nextProps.size) ||
+            Math.round(this.props.x) !== Math.round(nextProps.x) ||
+            Math.round(this.props.y) !== Math.round(nextProps.y)
         );
     }
     render () {
@@ -110,7 +122,7 @@ class SpriteInfo extends React.Component {
                         placeholder="x"
                         tabIndex="0"
                         type="text"
-                        value={this.props.disabled ? '' : this.props.x}
+                        value={this.props.disabled ? '' : Math.round(this.props.x)}
                         onSubmit={this.props.onChangeX}
                     />
                 </Label>
@@ -137,7 +149,7 @@ class SpriteInfo extends React.Component {
                         placeholder="y"
                         tabIndex="0"
                         type="text"
-                        value={this.props.disabled ? '' : this.props.y}
+                        value={this.props.disabled ? '' : Math.round(this.props.y)}
                         onSubmit={this.props.onChangeY}
                     />
                 </Label>
@@ -184,46 +196,23 @@ class SpriteInfo extends React.Component {
                                 /> :
                                 null
                         }
-                        <div className={styles.radioWrapper}>
-                            <div
-                                className={classNames(
-                                    styles.radio,
-                                    styles.radioFirst,
-                                    styles.iconWrapper,
-                                    {
-                                        [styles.isActive]: this.props.visible && !this.props.disabled,
-                                        [styles.isDisabled]: this.props.disabled
-                                    }
-                                )}
-                                tabIndex="0"
-                                onClick={this.props.onClickVisible}
-                                onKeyPress={this.props.onPressVisible}
-                            >
-                                <img
-                                    className={styles.icon}
-                                    src={showIcon}
-                                />
-                            </div>
-                            <div
-                                className={classNames(
-                                    styles.radio,
-                                    styles.radioLast,
-                                    styles.iconWrapper,
-                                    {
-                                        [styles.isActive]: !this.props.visible && !this.props.disabled,
-                                        [styles.isDisabled]: this.props.disabled
-                                    }
-                                )}
-                                tabIndex="0"
-                                onClick={this.props.onClickNotVisible}
-                                onKeyPress={this.props.onPressNotVisible}
-                            >
-                                <img
-                                    className={styles.icon}
-                                    src={hideIcon}
-                                />
-                            </div>
-                        </div>
+                        <ToggleButtons
+                            buttons={[
+                                {
+                                    handleClick: this.props.onClickVisible,
+                                    icon: showIcon,
+                                    isSelected: this.props.visible && !this.props.disabled,
+                                    title: this.props.intl.formatMessage(messages.showSpriteAction)
+                                },
+                                {
+                                    handleClick: this.props.onClickNotVisible,
+                                    icon: hideIcon,
+                                    isSelected: !this.props.visible && !this.props.disabled,
+                                    title: this.props.intl.formatMessage(messages.hideSpriteAction)
+                                }
+                            ]}
+                            disabled={this.props.disabled}
+                        />
                     </div>
                     <div className={classNames(styles.group, styles.largerInput)}>
                         <Label
@@ -237,14 +226,14 @@ class SpriteInfo extends React.Component {
                                 label={sizeLabel}
                                 tabIndex="0"
                                 type="text"
-                                value={this.props.disabled ? '' : this.props.size}
+                                value={this.props.disabled ? '' : Math.round(this.props.size)}
                                 onSubmit={this.props.onChangeSize}
                             />
                         </Label>
                     </div>
                     <div className={classNames(styles.group, styles.largerInput)}>
                         <DirectionPicker
-                            direction={this.props.direction}
+                            direction={Math.round(this.props.direction)}
                             disabled={this.props.disabled}
                             labelAbove={labelAbove}
                             rotationStyle={this.props.rotationStyle}
@@ -274,8 +263,6 @@ SpriteInfo.propTypes = {
     onChangeY: PropTypes.func,
     onClickNotVisible: PropTypes.func,
     onClickVisible: PropTypes.func,
-    onPressNotVisible: PropTypes.func,
-    onPressVisible: PropTypes.func,
     rotationStyle: PropTypes.string,
     size: PropTypes.oneOfType([
         PropTypes.string,

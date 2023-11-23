@@ -25,6 +25,14 @@
 }
 
 .menu-item:hover {
-    background: $motion-primary;
+    background: $looks-secondary;
     color: white;
+}
+
+.menu-item-bordered {
+    border-top: 1px solid $ui-black-transparent;
+}
+
+.menu-item-danger:hover {
+    background: $error-primary;
 }

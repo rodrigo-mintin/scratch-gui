@@ -1,12 +1,11 @@
-import ScratchBlocks from 'scratch-blocks';
-
 /**
  * Connect scratch blocks with the vm
  * @param {VirtualMachine} vm - The scratch vm
+ * @param {Bool} useCatBlocks - Whether to use cat blocks rendering of ScratchBlocks
  * @return {ScratchBlocks} ScratchBlocks connected with the vm
  */
-export default function (vm) {
-
+export default function (vm, useCatBlocks) {
+    const ScratchBlocks = useCatBlocks ? require('cat-blocks') : require('scratch-blocks');
     const jsonForMenuBlock = function (name, menuOptionsFn, colors, start) {
         return {
             message0: '%1',
@@ -24,6 +23,7 @@ export default function (vm) {
             colour: colors.secondary,
             colourSecondary: colors.secondary,
             colourTertiary: colors.tertiary,
+            colourQuaternary: colors.quaternary,
             outputShape: ScratchBlocks.OUTPUT_SHAPE_ROUND
         };
     };
@@ -43,6 +43,7 @@ export default function (vm) {
             colour: colors.primary,
             colourSecondary: colors.secondary,
             colourTertiary: colors.tertiary,
+            colourQuaternary: colors.quaternary,
             extensions: ['shape_hat']
         };
     };
@@ -69,6 +70,7 @@ export default function (vm) {
             colour: ScratchBlocks.Colours.sensing.primary,
             colourSecondary: ScratchBlocks.Colours.sensing.secondary,
             colourTertiary: ScratchBlocks.Colours.sensing.tertiary,
+            colourQuaternary: ScratchBlocks.Colours.sensing.quaternary,
             outputShape: ScratchBlocks.OUTPUT_SHAPE_ROUND
         };
     };
@@ -213,6 +215,18 @@ export default function (vm) {
 
     ScratchBlocks.Blocks.sensing_of.init = function () {
         const blockId = this.id;
+        const blockType = this.type;
+
+        // Get the sensing_of block from vm.
+        let defaultSensingOfBlock;
+        const blocks = vm.runtime.flyoutBlocks._blocks;
+        Object.keys(blocks).forEach(id => {
+            const block = blocks[id];
+            if (id === blockType || (block && block.opcode === blockType)) {
+                defaultSensingOfBlock = block;
+            }
+        });
+
         // Function that fills in menu for the first input in the sensing block.
         // Called every time it opens since it depends on the values in the other block input.
         const menuFn = function () {
@@ -236,7 +250,7 @@ export default function (vm) {
 
                 // The block doesn't exist, but should be in the flyout. Look there.
                 if (!sensingOfBlock) {
-                    sensingOfBlock = vm.runtime.flyoutBlocks.getBlock(blockId);
+                    sensingOfBlock = vm.runtime.flyoutBlocks.getBlock(blockId) || defaultSensingOfBlock;
                     // If we still don't have a block, just return an empty list . This happens during
                     // scratch blocks construction.
                     if (!sensingOfBlock) {
@@ -245,8 +259,12 @@ export default function (vm) {
                     // The block was in the flyout so look up future block info there.
                     lookupBlocks = vm.runtime.flyoutBlocks;
                 }
+                const sort = function (options) {
+                    options.sort(ScratchBlocks.scratchBlocksUtils.compareStrings);
+                };
                 // Get all the stage variables (no lists) so we can add them to menu when the stage is selected.
                 const stageVariableOptions = vm.runtime.getTargetForStage().getAllVariableNamesInScopeByType('');
+                sort(stageVariableOptions);
                 const stageVariableMenuItems = stageVariableOptions.map(variable => [variable, variable]);
                 if (sensingOfBlock.inputs.OBJECT.shadow !== sensingOfBlock.inputs.OBJECT.block) {
                     // There's a block dropped on top of the menu. It'd be nice to evaluate it and
@@ -265,6 +283,7 @@ export default function (vm) {
                 // The target should exist, but there are ways for it not to (e.g. #4203).
                 if (target) {
                     spriteVariableOptions = target.getAllVariableNamesInScopeByType('', true);
+                    sort(spriteVariableOptions);
                 }
                 const spriteVariableMenuItems = spriteVariableOptions.map(variable => [variable, variable]);
                 return spriteOptions.concat(spriteVariableMenuItems);
@@ -313,6 +332,27 @@ export default function (vm) {
 
     ScratchBlocks.FieldNote.playNote_ = function (noteNum, extensionId) {
         vm.runtime.emit('PLAY_NOTE', noteNum, extensionId);
+    };
+
+    // Use a collator's compare instead of localeCompare which internally
+    // creates a collator. Using this is a lot faster in browsers that create a
+    // collator for every localeCompare call.
+    const collator = new Intl.Collator([], {
+        sensitivity: 'base',
+        numeric: true
+    });
+    ScratchBlocks.scratchBlocksUtils.compareStrings = function (str1, str2) {
+        return collator.compare(str1, str2);
+    };
+
+    // Blocks wants to know if 3D CSS transforms are supported. The cross
+    // section of browsers Scratch supports and browsers that support 3D CSS
+    // transforms will make the return always true.
+    //
+    // Shortcutting to true lets us skip an expensive style recalculation when
+    // first loading the Scratch editor.
+    ScratchBlocks.utils.is3dSupported = function () {
+        return true;
     };
 
     return ScratchBlocks;

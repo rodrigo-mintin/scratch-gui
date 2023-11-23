@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import VM from 'scratch-vm';
 
 import Box from '../box/box.jsx';
@@ -12,6 +13,7 @@ import styles from './stage-wrapper.css';
 
 const StageWrapperComponent = function (props) {
     const {
+        isFullScreen,
         isRtl,
         isRendererSupported,
         loading,
@@ -21,7 +23,10 @@ const StageWrapperComponent = function (props) {
 
     return (
         <Box
-            className={styles.stageWrapper}
+            className={classNames(
+                styles.stageWrapper,
+                {[styles.fullScreen]: isFullScreen}
+            )}
             dir={isRtl ? 'rtl' : 'ltr'}
         >
             <Box className={styles.stageMenuWrapper}>
@@ -41,15 +46,16 @@ const StageWrapperComponent = function (props) {
                 }
             </Box>
             {loading ? (
-                <Loader />
+                <Loader isFullScreen={isFullScreen} />
             ) : null}
         </Box>
     );    
 };
 
 StageWrapperComponent.propTypes = {
+    isFullScreen: PropTypes.bool,
     isRendererSupported: PropTypes.bool.isRequired,
-    isRtl: PropTypes.bool,
+    isRtl: PropTypes.bool.isRequired,
     loading: PropTypes.bool,
     stageSize: PropTypes.oneOf(Object.keys(STAGE_DISPLAY_SIZES)).isRequired,
     vm: PropTypes.instanceOf(VM).isRequired
