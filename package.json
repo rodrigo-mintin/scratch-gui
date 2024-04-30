@@ -13,7 +13,7 @@
   "scripts": {
     "build": "npm run clean && webpack --colors --bail",
     "clean": "rimraf ./build && mkdirp build && rimraf ./dist && mkdirp dist",
-    "pre-deploy": "touch build/.nojekyll && touch build/CNAME && echo 'scratch.theroboboproject.com' >> build/CNAME",
+    "pre-deploy": "touch build/.nojekyll",
     "gh-pages": "gh-pages -t -d build -m \"[skip ci] Build for $(git log --pretty=format:%H -n1)\"",
     "deploy": "npm run pre-deploy && npm run gh-pages",
     "prepare": "husky install",
@@ -94,7 +94,7 @@
     "scratch-render-fonts": "1.0.0-prerelease.20231017225105",
     "scratch-storage": "2.3.1",
     "scratch-svg-renderer": "0.2.0-prerelease.20231013154115",
-    "scratch-vm": "github:mintforpeople/scratch-vm#develop",
+    "scratch-vm": "github:rodrigo-mintin/scratch-vm#develop",
     "startaudiocontext": "1.2.1",
     "style-loader": "^0.23.0",
     "text-encoding": "0.7.0",
